@@ -17,22 +17,22 @@ def test():
 def test1():
     return  getIp()
 
-@app.route("/testplc", methods=['GET'])
-def testplc():
-    c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
-    print(c)
-    is_ok = c.write_single_coil(0,1)
-    print(is_ok)
-    if is_ok:
-        return "is ok"
-    else:
-        return "is not ok"
+# @app.route("/testplc", methods=['GET'])
+# def testplc():
+#     c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+#     print(c)
+#     is_ok = c.write_single_coil(0,1)
+#     print(is_ok)
+#     if is_ok:
+#         return "is ok"
+#     else:
+#         return "is not ok"
 
 
 
 
 
 if __name__ == "__main__":
-    app.run(host=getIp() ,debug=True , port=5000)
-   # app.run(debug=True , port=5000)
+    app.run(host="192.168.1.156" ,debug=True , port=5000)
+    # app.run(debug=True , port=5000)
 print("ddd")
