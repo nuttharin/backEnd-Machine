@@ -2,6 +2,8 @@ from flask import Flask , jsonify , request
 from flask_restful import Api ,Resource
 from env import *
 from pclController import *
+from pyModbusTCP.client import ModbusClient
+
 
 
 app = Flask(__name__)
@@ -17,7 +19,14 @@ def test1():
 
 @app.route("/testplc", methods=['GET'])
 def testplc():
-    testPCL()
+    c = ModbusClient(host=getIpPLC,port=getPortPLC,auto_open=True)
+    print(c)
+    is_ok = c.write_single_coil(0,1)
+    print(is_ok)
+    if is_ok:
+        return "is ok"
+    else:
+        return "is not ok"
 
 
 
