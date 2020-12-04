@@ -19,7 +19,7 @@ def test1():
 
 @app.route("/testplc", methods=['GET'])
 def testplc():
-    c = ModbusClient(host=getIpPLC,port=getPortPLC,auto_open=True)
+    c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
     print(c)
     is_ok = c.write_single_coil(0,1)
     print(is_ok)
