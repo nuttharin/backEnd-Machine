@@ -29,7 +29,6 @@ def testplc():
     print(is_ok)
     response = requests.post('http://192.168.1.132:8080/app/post/test1')
     print(response.json())
-    print(response.json().data)
     if is_ok:
         return jsonify({
             "status": "success",
