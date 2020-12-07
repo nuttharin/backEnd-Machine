@@ -27,7 +27,7 @@ def testplc():
     print(c)
     is_ok = c.write_single_coil(0,1)
     print(is_ok)
-    response = requests.post('192.168.1.132:8080/app/post/test1')
+    response = requests.post('http://192.168.1.132:8080/app/post/test1')
     print(response.json())
     if is_ok:
         return jsonify({
