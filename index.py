@@ -3,6 +3,7 @@ from flask_restful import Api ,Resource
 from env import *
 from pclController import *
 from pyModbusTCP.client import ModbusClient
+import requests
 
 
 
@@ -27,11 +28,14 @@ def testplc():
     is_ok = c.write_single_coil(0,1)
     print(is_ok)
     if is_ok:
-        return jsonify({
-            "status": "success",
-            "statusCode": 201,
-            "data" : True
-        })
+        # return jsonify({
+        #     "status": "success",
+        #     "statusCode": 201,
+        #     "data" : True
+        # })
+        # 192.168.1.132:8080/app/post/test1
+        response = requests.post('192.168.1.132:8080/app/post/test1')
+        print(response.json())
     else:
         return jsonify({
             "status": "success",
