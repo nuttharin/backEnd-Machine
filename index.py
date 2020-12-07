@@ -1,5 +1,6 @@
 from flask import Flask , jsonify , request
 from flask_restful import Api ,Resource
+
 from env import *
 from pclController import *
 from pyModbusTCP.client import ModbusClient
@@ -44,6 +45,11 @@ def testplc():
             "statusCode": 200,
             "data" : False
         })
+
+@app.route("/machine/command/gasOut" , methods=["POST"])
+def machineCommandGasOut():
+    return jsonify({"data" : request.form['number_order']})
+
 
 
 
