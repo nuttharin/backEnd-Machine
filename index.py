@@ -29,10 +29,15 @@ def testplc():
     if is_ok:
         return jsonify({
             "status": "success",
-            "statusCode": 201
+            "statusCode": 201,
+            "data" : True
         })
     else:
-        return "is not ok"
+        return jsonify({
+            "status": "success",
+            "statusCode": 200,
+            "data" : False
+        })
 
 
 
