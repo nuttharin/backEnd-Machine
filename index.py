@@ -46,15 +46,23 @@ def testplc():
             "data" : False
         })
 
-@app.route("/machine/command/gasOut" , methods=["POST"])
+@app.route("/machine/command/gasOut" , methods = ['POST', 'GET'])
 def machineCommandGasOut():
     # return jsonify({"data" : request.form['number_order']})
-    print(request.form)
-    return jsonify({
-                "status": "success",
-                "statusCode": 201,
-                "data" : True
-            })
+    if request.method == 'POST':
+        user = request.form['number_order']
+        print(user)
+        return jsonify({
+                    "status": "success",
+                    "statusCode": 201,
+                    "data" : True
+                })
+    else:
+        return jsonify({
+                    "status": "error",
+                    "statusCode": 200,
+                    "data" : True
+                })
 
 
 
