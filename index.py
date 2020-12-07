@@ -49,7 +49,7 @@ def testplc():
 @app.route("/machine/command/gasOut" , methods=["POST"])
 def machineCommandGasOut():
     # return jsonify({"data" : request.form['number_order']})
-    print(request.form["number_order"])
+    print(request.form)
     return jsonify({
                 "status": "success",
                 "statusCode": 201,
