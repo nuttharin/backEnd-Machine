@@ -11,7 +11,10 @@ api = Api(app)
 
 @app.route("/test" , methods=['GET'])
 def test():
-    return jsonify({'tasks': "test api flask"})
+    return jsonify({ 
+            "status": "success",
+            "statusCode": 201
+        })
 
 @app.route("/test", methods=['POST'])
 def test1():
@@ -24,9 +27,38 @@ def testplc():
     is_ok = c.write_single_coil(0,1)
     print(is_ok)
     if is_ok:
-        return "is ok"
+        return jsonify({
+            "status": "success",
+            "statusCode": 201
+        })
     else:
         return "is not ok"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
