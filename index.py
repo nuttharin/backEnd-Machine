@@ -52,7 +52,7 @@ def machineCommandGasOut():
     
     user = request.json['number_order']
     print(user)
-    return jsonify({
+    return  jsonify({
                 "status": "success",
                 "statusCode": 201,
                 "data" : True
