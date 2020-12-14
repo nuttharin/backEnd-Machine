@@ -61,7 +61,11 @@ def machineCommandGasOut():
             })
     else:        
         # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+        is_ok = c.write_single_coil(0,1)
         print(c)
+        print("status write")
+        print(is_ok)
+
         return  jsonify({
                     "status": "success",
                     "statusCode": 201,
