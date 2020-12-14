@@ -55,8 +55,8 @@ def machineCommandGasOut():
     print(number_order)
     if number_order is None:
         return  jsonify({
-                "status": "success",
-                "statusCode": 201,
+                "status": "error",
+                "statusCode": 200,
                 "data" : "not have parameter ( number_order )"
             })
     else:        
@@ -65,12 +65,18 @@ def machineCommandGasOut():
         print(c)
         print("status write")
         print(is_ok)
-
-        return  jsonify({
+        if is_ok : 
+            return  jsonify({
                     "status": "success",
                     "statusCode": 201,
-                    "data" : True
+                    "data" : "write_single_coil complete"
                 })
+        else :
+            return  jsonify({
+                "status": "error",
+                "statusCode": 200,
+                "data" : "error write_single_coil"
+            })
    
 
 
