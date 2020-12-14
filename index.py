@@ -10,6 +10,8 @@ import requests
 
 app = Flask(__name__)
 api = Api(app)
+c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+
 
 @app.route("/test" , methods=['GET'])
 def test():
@@ -24,7 +26,7 @@ def test1():
 
 @app.route("/testplc", methods=['GET'])
 def testplc():
-    c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+    # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
     print(c)
     is_ok = c.write_single_coil(0,1)
     print(is_ok)
@@ -48,15 +50,23 @@ def testplc():
 
 @app.route("/machine/command/gasOut" , methods = ['POST'])
 def machineCommandGasOut():
-    # return jsonify({"data" : request.form['number_order']})
-    
-    user = request.json['number_order']
-    print(user)
-    return  jsonify({
+    # return jsonify({"data" : request.form['number_order']})    
+    number_order = request.json['number_order']
+    print(number_order)
+    if number_order is None:
+        return  jsonify({
                 "status": "success",
                 "statusCode": 201,
-                "data" : True
+                "data" : "not have parameter ( number_order )"
             })
+    else:        
+        # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+        print(c)
+        return  jsonify({
+                    "status": "success",
+                    "statusCode": 201,
+                    "data" : True
+                })
    
 
 
