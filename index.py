@@ -52,7 +52,9 @@ def testplc():
 def machineCommandGasOut():
     # return jsonify({"data" : request.form['number_order']})    
     number_order = request.json['number_order']
+    order_id = request.json['order_id']
     print(number_order)
+    print(order_id)
     if number_order is None:
         return  jsonify({
                 "status": "error",
@@ -61,23 +63,29 @@ def machineCommandGasOut():
             })
     else:        
         # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
-        is_ok = c.write_single_coil(0,1)
-        print(c)
-        print("status write")
-        print(is_ok)
-        if is_ok : 
-            return  jsonify({
-                    "status": "success",
-                    "statusCode": 201,
-                    "data" : "write_single_coil complete"
+        i = 1
+        while i <= number_order :
+            print(i)                    
+            is_ok = c.write_single_coil(0,1)
+            print(c)
+            print("status write")
+            print(is_ok)
+            if is_ok : 
+                # api update
+                if i == number_order :
+                    return  jsonify({
+                            "status": "success",
+                            "statusCode": 201,
+                            "data" : "write_single_coil complete"
+                        })
+                i+=1
+            else :
+                return  jsonify({
+                    "status": "error",
+                    "statusCode": 200,
+                    "data" : "error write_single_coil"
                 })
-        else :
-            return  jsonify({
-                "status": "error",
-                "statusCode": 200,
-                "data" : "error write_single_coil"
-            })
-   
+           
 
 
 
