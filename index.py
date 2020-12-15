@@ -70,7 +70,7 @@ def machineCommandGasOut():
             print(c)
             print("status write")
             print(is_ok)
-            url = getIpApi()+'/app/post/fromMachine/update/quality/gasOut'
+            url = "http://"+getIpApi()+"/app/post/fromMachine/update/quality/gasOut"
             myobj = {
                         'order_id': 'order_id' , 
                         'quality' : i
