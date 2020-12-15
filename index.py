@@ -70,11 +70,21 @@ def machineCommandGasOut():
             print(c)
             print("status write")
             print(is_ok)
-            url = 'https://'+getIpApi+'/app/post/fromMachine/update/quality/gasOut'
+            url = getIpApi+'/app/post/fromMachine/update/quality/gasOut'
             myobj = {
                         'order_id': 'order_id' , 
                         'quality' : i
                     }
+            # url = "localhost:8080/app/post/machine/command/sendCommandToMachineGasOut"
+
+            # payload="{\r\n    \"order_id\" : 11\r\n}"
+            # headers = {
+            # 'Content-Type': 'application/json'
+            # }
+
+            # response = requests.request("POST", url, headers=headers, data=payload)
+
+            # print(response.text)
 
             x = requests.post(url, data = myobj)
             print(x.text)
