@@ -1,6 +1,6 @@
 ip = "192.168.1.156"
 ipPLC = "192.168.250.1"
-ipApi = "localhost:8080"
+ipApi = "192.168.1.132:8080"
 portPLC = 502
 
 def getIp():
