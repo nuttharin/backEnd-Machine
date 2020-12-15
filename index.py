@@ -72,7 +72,7 @@ def machineCommandGasOut():
             print(is_ok)
             url = "http://"+getIpApi()+"/app/post/fromMachine/update/quality/gasOut"
             myobj = {
-                        'order_id': 'order_id' , 
+                        'order_id': order_id , 
                         'quality' : i
                     }
             # url = "localhost:8080/app/post/machine/command/sendCommandToMachineGasOut"
@@ -88,6 +88,7 @@ def machineCommandGasOut():
 
             x = requests.post(url, data = myobj)
             print(x.text)
+            i += 1
             
             # if is_ok : 
             #     # api update
