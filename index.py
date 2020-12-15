@@ -89,6 +89,11 @@ def machineCommandGasOut():
             x = requests.post(url, data = myobj)
             print(x.text)
             i += 1
+            return  jsonify({
+                    "status": "error",
+                    "statusCode": 200,
+                    "data" : "error write_single_coil"
+                })
             
             # if is_ok : 
             #     # api update
