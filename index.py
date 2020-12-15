@@ -70,21 +70,30 @@ def machineCommandGasOut():
             print(c)
             print("status write")
             print(is_ok)
-            if is_ok : 
-                # api update
-                if i == number_order :
-                    return  jsonify({
-                            "status": "success",
-                            "statusCode": 201,
-                            "data" : "write_single_coil complete"
-                        })
-                i+=1
-            else :
-                return  jsonify({
-                    "status": "error",
-                    "statusCode": 200,
-                    "data" : "error write_single_coil"
-                })
+            url = 'https://'+getIpApi+'/app/post/fromMachine/update/quality/gasOut'
+            myobj = {
+                        'order_id': 'order_id' , 
+                        'quality' : i
+                    }
+
+            x = requests.post(url, data = myobj)
+            print(x.text)
+            
+            # if is_ok : 
+            #     # api update
+            #     if i == number_order :
+            #         return  jsonify({
+            #                 "status": "success",
+            #                 "statusCode": 201,
+            #                 "data" : "write_single_coil complete"
+            #             })
+            #     i+=1
+            # else :
+            #     return  jsonify({
+            #         "status": "error",
+            #         "statusCode": 200,
+            #         "data" : "error write_single_coil"
+            #     })
            
 
 
