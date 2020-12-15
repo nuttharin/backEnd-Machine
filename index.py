@@ -66,10 +66,10 @@ def machineCommandGasOut():
         i = 1
         while i <= number_order :
             print(i)                    
-            is_ok = c.write_single_coil(0,1)
-            print(c)
+            # is_ok = c.write_single_coil(0,1)
+            # print(c)
             print("status write")
-            print(is_ok)
+            # print(is_ok)
             url = "http://"+getIpApi()+"/app/post/fromMachine/update/quality/gasOut"
             myobj = {
                         'order_id': order_id , 
