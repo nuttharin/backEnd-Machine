@@ -84,6 +84,7 @@ def machineCommandGasOut():
             
             if is_ok : 
                 # api update
+                print("if is_ok")
                 if i == number_order :
                     return  jsonify({
                             "status": "success",
@@ -92,6 +93,7 @@ def machineCommandGasOut():
                         })
                 i+=1
             else :
+                print("else is_ok")
                 return  jsonify({
                     "status": "error",
                     "statusCode": 200,
