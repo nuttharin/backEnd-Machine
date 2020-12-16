@@ -65,7 +65,6 @@ def machineCommandGasOut():
         # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
         i = 1
         while i <= number_order :
-            print(i) 
             print("status write") 
             is_ok = True                   
             # is_ok = c.write_single_coil(0,1)
@@ -82,6 +81,9 @@ def machineCommandGasOut():
                             'quality' : i
                         }
                 x = requests.post(url, data = myobj)
+                print(i)
+                print(number_order) 
+
                 print(x.text)
                 if i == number_order :
                     return  jsonify({
