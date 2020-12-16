@@ -65,47 +65,38 @@ def machineCommandGasOut():
         # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
         i = 1
         while i <= number_order :
-            print(i)                    
+            print(i) 
+            print("status write") 
+            is_ok = True                   
             # is_ok = c.write_single_coil(0,1)
             # print(c)
-            print("status write")
+            
             # print(is_ok)
             url = "http://"+getIpApi()+"/app/post/fromMachine/update/quality/gasOut"
             myobj = {
-                        'order_id': order_id , 
+                        'order_id': order_id ,  
                         'quality' : i
                     }
-            # url = "localhost:8080/app/post/machine/command/sendCommandToMachineGasOut"
-
-            # payload="{\r\n    \"order_id\" : 11\r\n}"
-            # headers = {
-            # 'Content-Type': 'application/json'
-            # }
-
-            # response = requests.request("POST", url, headers=headers, data=payload)
-
-            # print(response.text)
-
             x = requests.post(url, data = myobj)
             print(x.text)
             i += 1
            
             
-            # if is_ok : 
-            #     # api update
-            #     if i == number_order :
-            #         return  jsonify({
-            #                 "status": "success",
-            #                 "statusCode": 201,
-            #                 "data" : "write_single_coil complete"
-            #             })
-            #     i+=1
-            # else :
-            #     return  jsonify({
-            #         "status": "error",
-            #         "statusCode": 200,
-            #         "data" : "error write_single_coil"
-            #     })
+            if is_ok : 
+                # api update
+                if i == number_order :
+                    return  jsonify({
+                            "status": "success",
+                            "statusCode": 201,
+                            "data" : "write_single_coil complete"
+                        })
+                i+=1
+            else :
+                return  jsonify({
+                    "status": "error",
+                    "statusCode": 200,
+                    "data" : "error write_single_coil"
+                })
         return  jsonify({
                     "status": "error",
                     "statusCode": 200,
