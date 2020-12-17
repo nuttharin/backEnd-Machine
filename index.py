@@ -85,6 +85,9 @@ def machineCommandGasOut():
                 print(number_order) 
 
                 print(resJson.json()["statusCode"])
+                if resJson.json()["statusCode"] == 201 : 
+                    print("update complete")
+
 
                 if i == number_order :
                     return  jsonify({
