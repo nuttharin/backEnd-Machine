@@ -80,11 +80,12 @@ def machineCommandGasOut():
                             'order_id': order_id ,  
                             'quality' : i
                         }
-                x = requests.post(url, data = myobj)
+                resJson = requests.post(url, data = myobj)
                 print(i)
                 print(number_order) 
 
-                print(x.text)
+                print(resJson.request.json['statusCode'])
+                
                 if i == number_order :
                     return  jsonify({
                             "status": "success",
