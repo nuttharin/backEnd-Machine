@@ -84,7 +84,7 @@ def machineCommandGasOut():
                 print(i)
                 print(number_order) 
 
-                print(resJson.text.request.json['statusCode'])
+                print(resJson.text)
 
                 if i == number_order :
                     return  jsonify({
