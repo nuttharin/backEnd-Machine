@@ -28,29 +28,29 @@ def test1():
 
 
 
-@app.route("/testplc", methods=['GET'])
-def testplc():
-    # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
-    print(c)
-    is_ok = c.write_single_coil(0,1)
-    print(is_ok)
-    response = requests.post('http://192.168.1.132:8080/app/post/test1')
-    print(response.json())
-    data = response.json()
-    print(data["data"])
-    if is_ok:
-        return jsonify({
-            "status": "success",
-            "statusCode": 201,
-            "data" : True
-        })
-        # 192.168.1.132:8080/app/post/test1        
-    else:
-        return jsonify({
-            "status": "success",
-            "statusCode": 200,
-            "data" : False
-        })
+# @app.route("/testplc", methods=['GET'])
+# def testplc():
+#     # c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+#     print(c)
+#     is_ok = c.write_single_coil(0,1)
+#     print(is_ok)
+#     response = requests.post('http://192.168.1.132:8080/app/post/test1')
+#     print(response.json())
+#     data = response.json()
+#     print(data["data"])
+#     if is_ok:
+#         return jsonify({
+#             "status": "success",
+#             "statusCode": 201,
+#             "data" : True
+#         })
+#         # 192.168.1.132:8080/app/post/test1        
+#     else:
+#         return jsonify({
+#             "status": "success",
+#             "statusCode": 200,
+#             "data" : False
+#         })
 
 @app.route("/machine/command/gasOut" , methods = ['POST'])
 def machineCommandGasOut():
@@ -113,7 +113,7 @@ def machineCommandGasOut():
 def machineCommandTest():
     # return jsonify({"data" : request.form['number_order']})    
     command_str = request.json['command_str']
-    coil_number = testPCL(command_str)
+    coil_number = getCommandWrite(command_str)
     print(coil_number)
     # number_order = request.json['number_order']
     # order_id = request.json['order_id']
