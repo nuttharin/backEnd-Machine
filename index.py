@@ -10,7 +10,7 @@ import requests
 
 
 app = Flask(__name__)
-app.run(host="0.0.0.0")
+app.run(host="192.168.0.102")
 api = Api(app)
 c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
 
