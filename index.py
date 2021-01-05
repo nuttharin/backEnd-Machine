@@ -3,7 +3,7 @@ from flask_restful import Api ,Resource
 
 from env import *
 from pclController import *
-from command import *- 
+from command import *
 from pyModbusTCP.client import ModbusClient
 import requests
 
