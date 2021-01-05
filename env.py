@@ -5,7 +5,7 @@ portPLC = 502
 
 def getIp():
     #return ip
-    return "192.168.0.102"
+    return "192.168.1.156"
 
 def getIpPLC():
     return ipPLC
