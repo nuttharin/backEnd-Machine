@@ -110,7 +110,7 @@ def machineCommandGasOut():
            
 
 @app.route("/machine/command/test" , methods = ['POST'])
-def machineCommandGasOut():
+def machineCommandTest():
     # return jsonify({"data" : request.form['number_order']})    
     command_str = request.json['command_str']
     coil_number = testPCL(command_str)
