@@ -12,6 +12,7 @@ import requests
 app = Flask(__name__)
 api = Api(app)
 c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+is_ok = True
 
 
 @app.route("/test" , methods=['GET'])
@@ -115,6 +116,11 @@ def machineCommandTest():
     command_str = request.json['command_str']
     coil_number = getCommandWrite(command_str)
     print(coil_number)
+    print("status write") 
+    is_ok = True                   
+    is_ok = c.write_single_coil(0,coil_number)
+    print(c)            
+    print(is_ok)
     return jsonify({ 
             "status": "success",
             "statusCode": 201
