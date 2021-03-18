@@ -184,11 +184,9 @@ def machineCommandGetVolume():
 @app.route("/machine/command/test" , methods = ['POST'])
 def machineCommandTest():
     # return jsonify({"data" : request.form['number_order']})    
-    command_str = request.json['command_str']
-    coil_number = getCommandWrite(command_str)
-    print(coil_number)
-    print("status write coil") 
-    is_ok = True                   
+    command_str_0 = request.json['command_str']
+    command_str_1 = request.json['command_str']
+    coil_number_1 = command_str_1                  
     is_ok = c.write_single_coil(0,coil_number)
     print(c)            
     print(is_ok)
