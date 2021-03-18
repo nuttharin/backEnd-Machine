@@ -227,6 +227,6 @@ def machineCommandTest():
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.0.102" ,debug=True , port=5000)
+    app.run(host="192.168.1.156" ,debug=True , port=5000)
     # app.run(debug=True , port=5000)
 print("ddd")
