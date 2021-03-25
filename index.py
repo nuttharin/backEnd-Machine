@@ -184,7 +184,7 @@ def machineCommandGetVolume():
 @app.route("/machine/command/test" , methods = ['POST'])
 def machineCommandTest():
     # return jsonify({"data" : request.form['number_order']})    
-    print("/machine/command/test") 
+    print("api => /machine/command/test") 
     command_str_0 = request.json['command_str_0']
     command_str_1 = request.json['command_str_1']
     coil_number_1 = command_str_1                  
@@ -232,6 +232,6 @@ def machineCommandTest():
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.1.156" ,debug=True , port=5000)
+    app.run(host="192.168.250.12" ,debug=True , port=5000)
     # app.run(debug=True , port=5000)
 print("ddd")
