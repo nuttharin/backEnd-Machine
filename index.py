@@ -57,7 +57,7 @@ def test1():
 #         })
 
 @app.route("/machine/command/gasOutx" , methods = ['POST'])
-def machineCommandGasOut():
+def machineCommandGasOutx():
     # return jsonify({"data" : request.form['number_order']})    
     number_order = request.json['number_order']
     order_id = request.json['order_id']
@@ -112,7 +112,7 @@ def machineCommandGasOut():
                 })
         
 @app.route("/machine/command/gasInx" , methods = ['POST'])
-def machineCommandGasIn():
+def machineCommandGasInx():
     # return jsonify({"data" : request.form['number_order']})    
     number_order = request.json['number_order']
     order_id = request.json['order_id']
