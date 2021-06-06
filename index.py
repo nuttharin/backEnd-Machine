@@ -13,6 +13,9 @@ app = Flask(__name__)
 api = Api(app)
 c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
 is_ok = True
+ 
+coil_return = 0
+coil_receive = 1
 
 
 @app.route("/test" , methods=['GET'])
@@ -53,7 +56,7 @@ def test1():
 #             "data" : False
 #         })
 
-@app.route("/machine/command/gasOut" , methods = ['POST'])
+@app.route("/machine/command/gasOutx" , methods = ['POST'])
 def machineCommandGasOut():
     # return jsonify({"data" : request.form['number_order']})    
     number_order = request.json['number_order']
@@ -108,7 +111,7 @@ def machineCommandGasOut():
                     "data" : "error write_single_coil"
                 })
         
-@app.route("/machine/command/gasIn" , methods = ['POST'])
+@app.route("/machine/command/gasInx" , methods = ['POST'])
 def machineCommandGasIn():
     # return jsonify({"data" : request.form['number_order']})    
     number_order = request.json['number_order']
@@ -201,6 +204,52 @@ def machineCommandTest():
             "status": "success",
             "statusCode": 201
         })
+
+
+@app.route("/machine/command/gasOut" , methods = ['POST'])
+def machineCommandGasOut():
+    print("api => /machine/command/test") 
+    command_str_0 = request.json['command_str_0']
+    command_str_1 = request.json['command_str_1']
+    coil_number_1 = command_str_1                  
+    is_ok = c.write_single_coil(command_str_0,coil_number_1)
+    print(c)            
+    print(is_ok)
+    if is_ok :
+        print("success")
+    
+    else :
+        print("not success")
+
+    return jsonify({ 
+            "status": "success",
+            "statusCode": 201
+        })
+
+
+
+
+        
+@app.route("/machine/command/gasIn" , methods = ['POST'])
+def machineCommandGasIn():
+    print("api => /machine/command/test") 
+    command_str_0 = request.json['command_str_0']
+    command_str_1 = request.json['command_str_1']
+    coil_number_1 = command_str_1                  
+    is_ok = c.write_single_coil(command_str_0,coil_number_1)
+    print(c)            
+    print(is_ok)
+    if is_ok :
+        print("success")
+    
+    else :
+        print("not success")
+
+    return jsonify({ 
+            "status": "success",
+            "statusCode": 201
+        })
+
         
 
 
