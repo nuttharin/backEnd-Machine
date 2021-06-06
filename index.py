@@ -6,6 +6,7 @@ from pclController import *
 from command import *
 from pyModbusTCP.client import ModbusClient
 import requests
+import time
 
 
 
@@ -208,7 +209,7 @@ def machineCommandTest():
 
 @app.route("/machine/command/gasOut" , methods = ['POST'])
 def machineCommandGasOut():
-    print("api => /machine/command/test") 
+    print("api => /machine/command/gasOut") 
     command_str_0 = request.json['command_str_0']
     command_str_1 = request.json['command_str_1']
     coil_number_1 = command_str_1                  
@@ -217,19 +218,26 @@ def machineCommandGasOut():
     print(is_ok)
     if is_ok :
         print("success")
-    
-    else :
-        print("not success")
-
-    return jsonify({ 
+        return jsonify({ 
             "status": "success",
             "statusCode": 201
+
         })
+    
+    else :
+        print("no success")
+        return jsonify({ 
+            "status": "error",
+            "statusCode": 200 ,
+            "data" : "can't connect PLC"
+        })
+
+    
 
      
 @app.route("/machine/command/gasIn" , methods = ['POST'])
 def machineCommandGasIn():
-    print("api => /machine/command/test") 
+    print("api => /machine/command/gasIn") 
     command_str_0 = request.json['command_str_0']
     command_str_1 = request.json['command_str_1']
     coil_number_1 = command_str_1                  
@@ -238,16 +246,75 @@ def machineCommandGasIn():
     print(is_ok)
     if is_ok :
         print("success")
-    
-    else :
-        print("not success")
-
-    return jsonify({ 
+        return jsonify({ 
             "status": "success",
             "statusCode": 201
+            
+        })
+    
+    else :
+        print("no success")
+
+        return jsonify({ 
+            "status": "error",
+            "statusCode": 200 ,
+            "data" : "can't connect PLC"
         })
 
+
+@app.route("/machine/command/get/status/gasIn" , methods = ['POST'])
+def machineCommandGetstatusGasIn():
+    print("api => machine/command/get/statusCommand/gasIn") 
+    if c.is_open():
         
+        #  register position at 100
+        regs = c.read_holding_registers(0, 0x64 )
+        time.sleep(2)
+        if regs:
+            print("reg ad #0 to 9: "+str(regs))
+            
+            return jsonify({ 
+                "status": "success",
+                "statusCode": 201,
+                "data" : regs
+            }) 
+        else :
+            print("no success")
+
+            return jsonify({ 
+                "status": "error",
+                "statusCode": 200 ,
+                "data" : "can't connect PLC"
+            })
+  
+       
+    
+
+
+@app.route("/machine/command/get/status/gasOut" , methods = ['POST'])
+def machineCommandGetstatusGasOut():
+    print("api => machine/command/get/statusCommand/gasOut") 
+    if c.is_open():
+        
+        #  register position at 101
+        regs = c.read_holding_registers(0, 0x65 )
+        time.sleep(2)
+        if regs:
+            print("reg ad #0 to 9: "+str(regs))
+            
+            return jsonify({ 
+                "status": "success",
+                "statusCode": 201,
+                "data" : regs
+            })
+
+        else :
+            print("no success")
+            return jsonify({ 
+                "status": "error",
+                "statusCode": 200 ,
+                "data" : "can't connect PLC"
+            })     
 
 
 
