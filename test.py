@@ -1,16 +1,16 @@
-from pyModbusTCP.client import ModbusClient
-from tkinter import *
-#import tkinter
-localhost = "192.168.250.1"
-portTCP = 502
-#auto_open = True
+# from pyModbusTCP.client import ModbusClient
+# from tkinter import *
+# #import tkinter
+# localhost = "192.168.250.1"
+# portTCP = 502
+# #auto_open = True
 
-#tkinter._test()
-window = Tk()
-window.title("Welcome to Gas Machine")
-window.geometry('350x200')
-lbl0 = Label(window,text="")
-lbl0.grid(column=5,row=3)
+# #tkinter._test()
+# window = Tk()
+# window.title("Welcome to Gas Machine")
+# window.geometry('350x200')
+# lbl0 = Label(window,text="")
+# lbl0.grid(column=5,row=3)
 
 
 # lbl = Label(window,text="xxx")
@@ -30,4 +30,9 @@ lbl0.grid(column=5,row=3)
 
 #print("Hello world")
 
-window.mainloop()
+# window.mainloop()
+import socket
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
+
+print(local_ip)

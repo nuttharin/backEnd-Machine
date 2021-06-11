@@ -7,24 +7,29 @@ from command import *
 from pyModbusTCP.client import ModbusClient
 import requests
 import time
+import socket
 
 
 
 app = Flask(__name__)
 api = Api(app)
-c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
+# c = ModbusClient(host=getIpPLC(),port=getPortPLC(),auto_open=True)
 is_ok = True
  
 coil_return = 0
 coil_receive = 1
 
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
 
-@app.route("/test" , methods=['GET'])
-def test():
-    return jsonify({ 
-            "status": "success",
-            "statusCode": 201
-        })
+
+
+# @app.route("/test" , methods=['GET'])
+# def test():
+#     return jsonify({ 
+#             "status": "success",
+#             "statusCode": 201
+#         })
 
 @app.route("/test", methods=['POST'])
 def test1():
@@ -214,18 +219,44 @@ def machineCommandGasOut():
     command_str_1 = request.json['command_str_1']
     coil_number_1 = command_str_1                  
     is_ok = c.write_single_coil(command_str_0,coil_number_1)
-    print(c)            
+    checkLoop = True
+    step1 = 0
+    step2 = 0            
     print(is_ok)
     if is_ok :
-        print("success")
-        return jsonify({ 
-            "status": "success",
-            "statusCode": 201
+        while checkLoop :
+            regs = c.read_holding_registers(0, 0x66 )
+            if regs[101] == 1 :
+                checkIn = True
+                step1 = 1
+                checkLoop = False                    
+            else :
+                time.sleep(5)
+        time.sleep(20)
+        checkLoop = True
 
-        })
+        if step1 == 1 :
+            while checkLoop :
+                regs = c.read_holding_registers(0, 0x66 )
+                if regs[102] == 1 :
+                    # เอามาคืนแล้ว
+                    checkIn = False
+                    step2 = 1
+                    checkLoop = False                    
+                else :
+                    time.sleep(5)
+        
+        if step1 == 1 and step2 == 1 :     
+            print("success")
+            return jsonify({ 
+                "status": "success",
+                "statusCode": 201
+                
+            })
     
     else :
         print("no success")
+
         return jsonify({ 
             "status": "error",
             "statusCode": 200 ,
@@ -242,15 +273,40 @@ def machineCommandGasIn():
     command_str_1 = request.json['command_str_1']
     coil_number_1 = command_str_1                  
     is_ok = c.write_single_coil(command_str_0,coil_number_1)
-    print(c)            
+    checkLoop = True
+    step1 = 0
+    step2 = 0            
     print(is_ok)
     if is_ok :
-        print("success")
-        return jsonify({ 
-            "status": "success",
-            "statusCode": 201
-            
-        })
+        while checkLoop :
+            regs = c.read_holding_registers(0, 0x66 )
+            if regs[101] == 1 :
+                checkIn = True
+                step1 = 1
+                checkLoop = False                    
+            else :
+                time.sleep(5)
+        time.sleep(20)
+        checkLoop = True
+
+        if step1 == 1 :
+            while checkLoop :
+                regs = c.read_holding_registers(0, 0x66 )
+                if regs[102] == 1 :
+                    # เอามาคืนแล้ว
+                    checkIn = False
+                    step2 = 1
+                    checkLoop = False                    
+                else :
+                    time.sleep(5)
+        
+        if step1 == 1 and step2 == 1 :     
+            print("success")
+            return jsonify({ 
+                "status": "success",
+                "statusCode": 201
+                
+            })
     
     else :
         print("no success")
@@ -261,17 +317,107 @@ def machineCommandGasIn():
             "data" : "can't connect PLC"
         })
 
+@app.route("/machine/command/gasInOut" , methods = ['POST'])
+def machineCommandGetGasInOut():
+    print("api => machine/command/get/statusCommand/gasInOut") 
+    if c.is_open():        
+        command_str_0 = 0
+        command_str_1 = 0
+        coil_number_1 = command_str_1                  
+        is_ok = c.write_single_coil(command_str_0,coil_number_1)
+        # print(is_ok)
+        checkLoop = True
+        checkIn = False
+        step1 = 0
+        step2 = 0
+        step3 = 0
+        step4 = 0
+        if is_ok :
+            # check status gasIn
+            while checkLoop :
+                regs = c.read_holding_registers(0, 0x66 )
+                if regs[101] == 1 :
+                   checkIn = True
+                   step1 = 1
+                   checkLoop = False                    
+                else :
+                    time.sleep(5)
+            # รอเอาแก้เข้า
+            time.sleep(20)
+            checkLoop = True
+            if checkIn == True :
+                while checkLoop :
+                    regs = c.read_holding_registers(0, 0x66 )
+                    if regs[102] == 1 :
+                        # เอามาคืนแล้ว
+                        checkIn = False
+                        step2 = 1
+                        checkLoop = False                    
+                    else :
+                        time.sleep(5)
+            # เอาถังออก
+            checkLoop = True
+            if checkIn == False :
+                command_str_0 = 0
+                command_str_1 = 1
+                is_ok = c.write_single_coil(command_str_0,coil_number_1)
+                # เอาแขนเข้าไปหยิบ
+                while checkLoop :
+                    regs = c.read_holding_registers(0, 0x66 )
+                    if regs[101] == 1 :
+                        # แขนกำลังไปหยิบ
+                        checkIn = True
+                        step3 = 1
+                        checkLoop = False                    
+                    else :
+                        time.sleep(5)
+                time.sleep(20)
+                checkLoop = True
+                if checkIn == True :
+                    while checkLoop :
+                        regs = c.read_holding_registers(0, 0x66 )
+                        if regs[102] == 1 :
+                            # หยิบมาให้แล้ว
+                            checkIn = False
+                            step4 = 1
+                            checkLoop = False                    
+                        else :
+                            time.sleep(5)
+            if step1 == 1 and step2 == 1 and step3 == 1 and step4 == 1 :
+                print("success")
+                return jsonify({ 
+                    "status": "error",
+                    "statusCode": 201 ,
+                    "data" : ""
+                })
+
+        else :
+            print("no success")
+
+            return jsonify({ 
+                "status": "error",
+                "statusCode": 200 ,
+                "data" : "can't connect PLC (is_ok)"
+            })
+
+    else :
+            print("no success")
+            return jsonify({ 
+                "status": "error",
+                "statusCode": 200 ,
+                "data" : "can't connect PLC"
+            })
 
 @app.route("/machine/command/get/status/gasIn" , methods = ['POST'])
 def machineCommandGetstatusGasIn():
     print("api => machine/command/get/statusCommand/gasIn") 
     if c.is_open():
         
-        #  register position at 100
-        regs = c.read_holding_registers(0, 0x64 )
+        #  register position at 101
+        regs = c.read_holding_registers(0, 0x65 )
         time.sleep(2)
         if regs:
-            print("reg ad #0 to 9: "+str(regs))
+            print("reg ad 101 : "+str(regs))
             
             return jsonify({ 
                 "status": "success",
@@ -287,20 +433,16 @@ def machineCommandGetstatusGasIn():
                 "data" : "can't connect PLC"
             })
   
-       
-    
-
-
 @app.route("/machine/command/get/status/gasOut" , methods = ['POST'])
 def machineCommandGetstatusGasOut():
     print("api => machine/command/get/statusCommand/gasOut") 
     if c.is_open():
         
-        #  register position at 101
-        regs = c.read_holding_registers(0, 0x65 )
+        #  register position at 102
+        regs = c.read_holding_registers(0, 0x66 )
         time.sleep(2)
         if regs:
-            print("reg ad #0 to 9: "+str(regs))
+            print("reg ad 102 : "+str(regs))
             
             return jsonify({ 
                 "status": "success",
@@ -317,6 +459,27 @@ def machineCommandGetstatusGasOut():
             })     
 
 
+
+@app.route("/test" , methods = ['GET'])
+def testX():
+    print("api => machine/command/get/statusCommand/gasOut") 
+    x =  [0,0,0,0,0,0,0,0,0,0,1]
+    print(x[10])
+
+    checkLoop = True
+        
+    # check status gasIn
+    while checkLoop :
+        # regs = c.read_holding_registers(0, 0x65 )
+        print(1)
+        checkLoop = False
+        time.sleep(5)
+
+    return jsonify({ 
+        "status": "error",
+        "statusCode": 200 ,
+        "data" : x
+    })  
 
 
 
@@ -345,6 +508,8 @@ def machineCommandGetstatusGasOut():
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.250.12" ,debug=True , port=5000)
+    app.run(host= local_ip ,debug=True , port=5000)
+    #app.run(host="192.168.250.12" ,debug=True , port=5000)
+
     # app.run(debug=True , port=5000)
 print("ddd")
