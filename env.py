@@ -15,3 +15,6 @@ def getPortPLC():
 
 def getIpApi():
     return ipApi
+
+def getIpApiApp() :
+    return ipApi
