@@ -184,70 +184,70 @@ def machineCommandGetVolume():
 
 
 
-@app.route("/machine/command/get/status/gasOut" , methods = ['POST'])
-def machineCommandGetstatusGasOut():
-    print("api => machine/command/get/statusCommand/gasOut") 
-    if not c.is_open():
+# @app.route("/machine/command/get/status/gasOut" , methods = ['POST'])
+# def machineCommandGetstatusGasOut():
+#     print("api => machine/command/get/statusCommand/gasOut") 
+#     if not c.is_open():
         
-        #  register position at 102
-        regs = c.read_holding_registers(0, 0x66 )
-	print(regs)
-        time.sleep(2)
-        if regs:
-            print("reg ad 102 : "+str(regs))
+#         #  register position at 102
+#         regs = c.read_holding_registers(0, 0x66 )
+# 	    print(regs)
+#         time.sleep(2)
+#         if regs:
+#             print("reg ad 102 : "+str(regs))
             
-            return jsonify({ 
-                "status": "success",
-                "statusCode": 201,
-                "data" : regs
-            })
+#             return jsonify({ 
+#                 "status": "success",
+#                 "statusCode": 201,
+#                 "data" : regs
+#             })
 
-        else :
-            print("no success 2")
-            return jsonify({ 
-                "status": "error",
-                "statusCode": 200 ,
-                "data" : "can't connect PLC"
-            }) 
-    else :
-        print("no success 1")
-        return jsonify({ 
-            "status": "error",
-            "statusCode": 200 ,
-            "data" : "can't connect PLC"
-        })
+#         else :
+#             print("no success 2")
+#             return jsonify({ 
+#                 "status": "error",
+#                 "statusCode": 200 ,
+#                 "data" : "can't connect PLC"
+#             }) 
+#     else :
+#         print("no success 1")
+#         return jsonify({ 
+#             "status": "error",
+#             "statusCode": 200 ,
+#             "data" : "can't connect PLC"
+#         })
  
-@app.route("/machine/command/get/status/gasIn" , methods = ['POST'])
-def machineCommandGetstatusGasIn():
-    print("api => machine/command/get/statusCommand/gasIn") 
-    if c.is_open():
+# @app.route("/machine/command/get/status/gasIn" , methods = ['POST'])
+# def machineCommandGetstatusGasIn():
+#     print("api => machine/command/get/statusCommand/gasIn") 
+#     if c.is_open():
         
-        #  register position at 101
-        regs = c.read_holding_registers(0, 0x65 )
-        time.sleep(2)
-        if regs:
-            print("reg ad 101 : "+str(regs))
+#         #  register position at 101
+#         regs = c.read_holding_registers(0, 0x65 )
+#         time.sleep(2)
+#         if regs:
+#             print("reg ad 101 : "+str(regs))
             
-            return jsonify({ 
-                "status": "success",
-                "statusCode": 201,
-                "data" : regs
-            }) 
-        else :
-            print("no success")
+#             return jsonify({ 
+#                 "status": "success",
+#                 "statusCode": 201,
+#                 "data" : regs
+#             }) 
+#         else :
+#             print("no success")
 
-            return jsonify({ 
-                "status": "error",
-                "statusCode": 200 ,
-                "data" : "can't connect PLC"
-            })
-    else :
-            print("no success")
-            return jsonify({ 
-                "status": "error",
-                "statusCode": 200 ,
-                "data" : "can't connect PLC"
-            })
+#             return jsonify({ 
+#                 "status": "error",
+#                 "statusCode": 200 ,
+#                 "data" : "can't connect PLC"
+#             })
+#     else :
+#             print("no success")
+#             return jsonify({ 
+#                 "status": "error",
+#                 "statusCode": 200 ,
+#                 "data" : "can't connect PLC"
+#             })
 
 @app.route("/machine/command/gasInOut" , methods = ['POST'])
 def machineCommandGetGasInOut():
@@ -269,7 +269,7 @@ def machineCommandGetGasInOut():
             while checkLoop :
                 regs = c.read_holding_registers(0, 0x65 )
                 if regs[101] == 1 :
-		            print("101=1")
+		            # print("101=1")
                     checkIn = True
                     step1 = 1
                     checkLoop = False                    
@@ -366,42 +366,42 @@ def machineCommandGasOut():
     i = 1
     if is_ok :
         while checkLoop :
-	    print(i)
-            i = i + 1
-	    print(c.is_open)
+	        print(i)
 
+	        print(c.is_open)
+            i = i + 1
             regs = c.read_holding_registers(0, 0x65 )
             print("reg ad #0 to 9: "+str(regs))
 	   # regs = c.read_holding_registers(0, 0x65 )
             if regs:
-	       print(regs[100])
-#            c.close()
-               if regs[100] == 1 :
-       	          print("101=1")
-                  checkIn = True
-                  step1 = 1
-                  checkLoop = False                    
-               else :
-                  time.sleep(5)
+	            print(regs[100])
+                # c.close()
+                if regs[100] == 1 :
+                    print("101=1")
+                    checkIn = True
+                    step1 = 1
+                    checkLoop = False                    
+                else :
+                    time.sleep(5)
         time.sleep(20)
         checkLoop = True
 
         if step1 == 1 :
             while checkLoop :
                 print('\n s')
-	        regs = c.read_holding_registers(0, 0x66 )
+	            regs = c.read_holding_registers(0, 0x66 )
                 print("reg ad #0 to 9: "+str(regs))
-           # regs = c.read_holding_registers(0, 0x65 )
+                # regs = c.read_holding_registers(0, 0x65 )
                 if regs:
                    print(regs[101])
 #            c.close()
-                   if regs[100] == 0 :
-                      print("101=0")
-                      checkIn = True
-                      step2 = 1
-                      checkLoop = False
-                   else :
-                      time.sleep(5)
+                    if regs[100] == 0 :
+                        print("101=0")
+                        checkIn = True
+                        step2 = 1
+                        checkLoop = False
+                    else :
+                        time.sleep(5)
         
         if step1 == 1 and step2 == 1 :     
             print("success")
@@ -435,7 +435,7 @@ def machineCommandGasIn():
     if is_ok :
         while checkLoop :
             regs = c.read_holding_registers(0, 0x65 )
-	    print(regs)
+	        print(regs)
             if regs[101] == 1 :
                 checkIn = True
                 step1 = 1

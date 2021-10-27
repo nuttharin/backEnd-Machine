@@ -1,6 +1,7 @@
 from flask import Flask , jsonify , request
 from flask_restful import Api
 
+
 from env import *
 from pclController import *
 from command import *
@@ -499,7 +500,7 @@ def machineCommandGasIn():
 
 
 if __name__ == "__main__":
-    app.run(host= "192.168.0.101" ,debug=True , port=5000)
+    app.run(host= "10.1.3.70" ,debug=True , port=5000)
     #app.run(host="192.168.250.12" ,debug=True , port=5000)
 
     # app.run(debug=True , port=5000)
