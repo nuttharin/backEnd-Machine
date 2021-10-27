@@ -11,20 +11,27 @@ import socket
 
 
 
-def updateStatusMachine(status) :
+def updateStatusMachine(status , order_id) :
     #return ip
-    url = "http://"+getIpApi()+"/app/post/fromMachine/update/quality/gasOut"
+    url = "http://localhost:8080/"
     myobj = {
-                'order_id': order_id ,  
-                'quality' : i
-            }
+        'status': 0 ,
+        'order_id' : 52
+    }
     resJson = requests.post(url, data = myobj)
     # print(i)
     # print(number_order)
-    # print(resJson.json()["statusCode"])
 
-    if resJson.json()["statusCode"] == 201 : 
-        # print("update complete")
-        i+=1
-    return "192.168.1.156"
+    if resJson :
+        if resJson.json()["statusCode"] == 201 :
+            return True 
+        else : 
+            return False
+    else :
+        return jsonify({ 
+            "status": "success",
+            "statusCode": 201 ,
+            "data" : "command complete"              
+        })
+
 
